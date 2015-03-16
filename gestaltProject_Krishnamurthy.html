@@ -1,0 +1,71 @@
+<!-- This script is an experiment in Gestalt psychology in which participants are presented with a series of words in different colors of text and asked to classify them into groups based on whatever criteria they see fit. In its current form, the experiment could be conducted in a one-on-one in-person setting in which the conductor of the test would observe the participant directly as they sorted the words. However, for future expansion, I would like to flesh out the back-end more to allow groupings to be somehow detected and saved for analysis.-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gestalt Psychology Exercise</title>
+    <h4>Put the following words into groups</h4>
+
+    <style>
+    li
+    { 
+      position:  absolute;
+      left: 0;
+      top: 8;
+      width: 200px; 
+      background: rgba(255,255,255,0.66); 
+      border: 2px  solid rgba(0,0,0,0.5); 
+      border-radius: 4px; padding: 8px;
+    }
+    #div1 {width:1024px;height:768px;padding:10px;}
+    </style>
+    <script>
+
+    function drag_start(event) 
+    {
+    	var style = window.getComputedStyle(event.target, null);
+    	var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY)+ ',' + event.target.id;
+    	event.dataTransfer.setData("Text",str);
+    } 
+
+    function drop(event) 
+    {
+    	var offset = event.dataTransfer.getData("Text").split(',');
+    	var dm = document.getElementById(offset[2]);
+    	dm.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
+    	dm.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+    	event.preventDefault();
+    	return false;
+    }
+
+    function drag_over(event)
+    {
+    	event.preventDefault();
+    	return false;
+    }   
+    </script>
+  </head>
+  <body ondragover="drag_over(event)" ondrop="drop(event)">
+   <ul>
+          <li id="txt1" draggable="true" ondragstart="drag_start(event)"><font color="red"> Apple </font></li>
+          <li id="txt2" draggable="true" ondragstart="drag_start(event)"><font color="blue"> Banana </font></li>
+          <li id="txt3" draggable="true" ondragstart="drag_start(event)"><font color="green"> Carrot </font></li>
+
+          <li id="txt4" draggable="true" ondragstart="drag_start(event)"><font color="red"> Lion </font></li>
+          <li id="txt5" draggable="true" ondragstart="drag_start(event)"><font color="blue"> Tiger </font></li>
+          <li id="txt6" draggable="true" ondragstart="drag_start(event)"><font color="green"> Bear </font></li>
+
+          <li id="txt7" draggable="true" ondragstart="drag_start(event)"><font color="orange"> Apple </font></li>
+          <li id="txt8" draggable="true" ondragstart="drag_start(event)"><font color="purple"> Banana </font></li>
+          <li id="txt9" draggable="true" ondragstart="drag_start(event)"><font color="cyan"> Carrot </font></li>
+
+          <li id="txt10" draggable="true" ondragstart="drag_start(event)"><font color="orange"> Lion </font></li>
+          <li id="txt11" draggable="true" ondragstart="drag_start(event)"><font color="purple"> Tiger </font></li>
+          <li id="txt12" draggable="true" ondragstart="drag_start(event)"><font color="cyan"> Bear </font></li>
+  </ul>
+  <br>
+       <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+
+  </body>
+  </html>
